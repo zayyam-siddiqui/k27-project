@@ -1,32 +1,23 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { TransitionProvider } from './context/TransitionContext'
 import Home from './pages/Home'
 import Agence from './pages/Agence'
 import Projects from './pages/Projects'
-import PageTransition from './components/PageTransition'
-import { usePageTransition } from './hooks/usePageTransition'
+import PillarTransition from './components/PillarTransition'
+import { usePillarTransition } from './hooks/usePillarTransition'
 
-const AppContent = () => {
-  usePageTransition()
+const App = () => {
+  usePillarTransition()
 
   return (
     <div>
-      <PageTransition />
+      <PillarTransition />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/agence" element={<Agence />} />
         <Route path="/projects" element={<Projects />} />
       </Routes>
     </div>
-  )
-}
-
-const App = () => {
-  return (
-    <TransitionProvider>
-      <AppContent />
-    </TransitionProvider>
   )
 }
 
