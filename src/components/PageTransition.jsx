@@ -2,13 +2,27 @@ import React from 'react'
 
 const PageTransition = () => {
   return (
-    <div
-      id="page-transition-overlay"
-      className="fixed inset-0 bg-black pointer-events-none z-50"
-      style={{
-        clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
-      }}
-    />
+    <>
+      {/* Top mask reveal */}
+      <div
+        id="page-transition-top"
+        className="fixed top-0 left-0 right-0 bg-black pointer-events-none z-50"
+        style={{
+          height: '0%',
+          overflow: 'hidden',
+        }}
+      />
+      
+      {/* Bottom mask reveal */}
+      <div
+        id="page-transition-bottom"
+        className="fixed bottom-0 left-0 right-0 bg-black pointer-events-none z-50"
+        style={{
+          height: '0%',
+          overflow: 'hidden',
+        }}
+      />
+    </>
   )
 }
 

@@ -6,35 +6,53 @@ export const usePageTransition = () => {
   const location = useLocation()
 
   useEffect(() => {
-    // Get the transition overlay
-    const overlay = document.getElementById('page-transition-overlay')
-    if (!overlay) return
+    // Get the transition overlays
+    const topMask = document.getElementById('page-transition-top')
+    const bottomMask = document.getElementById('page-transition-bottom')
+    
+    if (!topMask || !bottomMask) return
 
-    // Create a timeline for the transition
+    // Create a timeline for the mask reveal transition
     const tl = gsap.timeline()
 
-    // Animate in (reveal the overlay)
-    tl.fromTo(
-      overlay,
+    // Phase 1: Masks expand from top and bottom to meet in the middle
+    tl.to(
+      topMask,
       {
-        clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
-      },
-      {
-        clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        duration: 0.6,
+        height: '50%',
+        duration: 0.5,
         ease: 'power2.inOut',
-      }
+      },
+      0
+    )
+    tl.to(
+      bottomMask,
+      {
+        height: '50%',
+        duration: 0.5,
+        ease: 'power2.inOut',
+      },
+      0
     )
 
-    // Animate out (hide the overlay)
+    // Phase 2: Masks shrink back (reveal new content)
     tl.to(
-      overlay,
+      topMask,
       {
-        clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
-        duration: 0.6,
+        height: '0%',
+        duration: 0.5,
         ease: 'power2.inOut',
       },
-      0.1
+      0.4
+    )
+    tl.to(
+      bottomMask,
+      {
+        height: '0%',
+        duration: 0.5,
+        ease: 'power2.inOut',
+      },
+      0.4
     )
   }, [location])
 
