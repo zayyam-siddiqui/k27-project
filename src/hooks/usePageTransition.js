@@ -11,9 +11,10 @@ export const usePageTransition = () => {
     const filmReelContainer = document.getElementById('film-reel-container')
     const filmReel = document.getElementById('film-reel')
     const filmStrip = document.getElementById('film-strip')
+    const filmContent = document.getElementById('film-content')
     const pageRevealContainer = document.getElementById('page-reveal-container')
 
-    if (!transitionBg || !filmReelContainer || !filmReel || !filmStrip) return
+    if (!transitionBg || !filmReelContainer || !filmReel || !filmStrip || !filmContent) return
 
     // Create master timeline
     const tl = gsap.timeline()
@@ -23,7 +24,7 @@ export const usePageTransition = () => {
       transitionBg,
       {
         opacity: 1,
-        duration: 0.3,
+        duration: 0.5,
         ease: 'power2.out',
       },
       0
@@ -33,68 +34,78 @@ export const usePageTransition = () => {
       filmReelContainer,
       {
         opacity: 1,
-        duration: 0.4,
+        duration: 0.6,
         ease: 'power2.out',
       },
-      0
+      0.1
     )
 
     // Phase 2: Film reel zooms out
     tl.to(
       filmReel,
       {
-        scale: 0.6,
-        duration: 0.6,
+        scale: 0.5,
+        duration: 1,
         ease: 'back.inOut',
       },
-      0.2
+      0.4
     )
 
-    // Phase 3: Rotate film reel and slide it to the right
+    // Phase 3: Content inside film strip starts to reveal
     tl.to(
-      filmReel,
+      filmContent,
       {
-        rotation: 360,
-        x: 200,
-        duration: 1.2,
-        ease: 'power1.inOut',
-      },
-      0.8
-    )
-
-    // Phase 3b: Film strip moves forward (appears to slide)
-    tl.to(
-      filmStrip,
-      {
-        x: 150,
-        opacity: 0.3,
+        opacity: 1,
         duration: 1,
         ease: 'power2.inOut',
       },
-      0.8
+      0.5
     )
 
-    // Phase 4: New page zooms in from the center
+    // Phase 4: Rotate film reel and slide it to the right with film strip
+    tl.to(
+      filmReel,
+      {
+        rotation: 720,
+        x: 300,
+        duration: 2,
+        ease: 'power1.inOut',
+      },
+      1
+    )
+
+    // Phase 4b: Film strip scrolls content forward (reveal effect)
+    tl.to(
+      filmContent,
+      {
+        x: 100,
+        duration: 1.8,
+        ease: 'power2.inOut',
+      },
+      1
+    )
+
+    // Phase 5: New page zooms in from the center with slow scale
     tl.to(
       pageRevealContainer,
       {
         opacity: 1,
         scale: 1,
-        duration: 0.8,
+        duration: 1.2,
         ease: 'back.out',
       },
-      1.4
+      2.2
     )
 
-    // Phase 5: Fade out transition elements
+    // Phase 6: Fade out transition elements smoothly
     tl.to(
       [transitionBg, filmReelContainer],
       {
         opacity: 0,
-        duration: 0.5,
+        duration: 0.8,
         ease: 'power2.in',
       },
-      1.8
+      2.8
     )
 
     // Reset page reveal container opacity so it doesn't interfere
@@ -102,9 +113,9 @@ export const usePageTransition = () => {
       pageRevealContainer,
       {
         opacity: 0,
-        duration: 0.1,
+        duration: 0.2,
       },
-      2.0
+      3.4
     )
   }, [location])
 

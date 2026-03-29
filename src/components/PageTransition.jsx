@@ -1,6 +1,9 @@
 import React from 'react'
+import { useTransitionContext } from '../context/TransitionContext'
 
 const PageTransition = () => {
+  const { nextPageContent } = useTransitionContext()
+
   return (
     <>
       {/* Transition Background */}
@@ -65,34 +68,42 @@ const PageTransition = () => {
             }}
           />
 
-          {/* Film Strip */}
+          {/* Film Strip with Content */}
           <div
             id="film-strip"
-            className="absolute top-1/2 left-1/2"
+            className="absolute top-1/2 left-1/2 overflow-hidden"
             style={{
-              width: '300px',
-              height: '60px',
+              width: '400px',
+              height: '140px',
               transform: 'translate(-50%, -50%)',
               background: 'linear-gradient(90deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%)',
-              border: '2px solid #666',
+              border: '3px solid #666',
               borderRadius: '4px',
               boxShadow: '0 10px 40px rgba(0, 0, 0, 0.8)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              padding: '0 10px',
               zIndex: -1,
             }}
           >
-            {[...Array(5)].map((_, i) => (
-              <div
-                key={i}
-                className="w-10 h-10 bg-gray-700 border border-gray-600 rounded-sm"
-                style={{
-                  flex: '0 0 auto',
-                }}
-              />
-            ))}
+            {/* Film Strip Content Preview */}
+            <div
+              id="film-content"
+              className="w-full h-full overflow-hidden"
+              style={{
+                opacity: 0.85,
+                transform: 'scale(0.6)',
+                transformOrigin: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              }}
+            >
+              {nextPageContent ? (
+                <div className="w-full h-full" style={{ fontSize: '10px' }}>
+                  {nextPageContent}
+                </div>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-gray-400">
+                  <span>Loading...</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -100,12 +111,16 @@ const PageTransition = () => {
       {/* New Page Reveal Container */}
       <div
         id="page-reveal-container"
-        className="fixed inset-0 pointer-events-none z-40"
+        className="fixed inset-0 pointer-events-none z-40 overflow-hidden"
         style={{
           opacity: 0,
-          scale: 0.5,
+          scale: 0.3,
         }}
-      />
+      >
+        <div className="w-full h-full">
+          {nextPageContent}
+        </div>
+      </div>
     </>
   )
 }
