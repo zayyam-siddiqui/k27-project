@@ -2,10 +2,201 @@
 
 @font-face {
     font-family: font1;
-    src: url(../fonts/Lausanne-300.woff2);
+    src: url(/fonts/Lausanne-300.woff2);
 }
 
 @font-face {
     font-family: font2;
-    src: url(../fonts/Lausanne-500.woff2);
+    src: url(/fonts/Lausanne-500.woff2);
+}
+
+@layer utilities {
+  .bg-hero {
+    background: linear-gradient(to right, #1c1917, #e11d48);
+  }
+}
+
+body {
+  background-color: rgb(23, 22, 22);
+}
+
+/* .movingOval ellipse {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: ovalMove 2s linear infinite;
+}
+
+@keyframes ovalMove {
+  to {
+    stroke-dashoffset: 0;
+  }
+} */
+
+.moveX {
+  animation-name: moveAnimation;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+@keyframes moveAnimation {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.moveLink {
+  width: 100%;
+  height: 0;
+  transition: height 0.2s ease-in-out;
+}
+
+.link:hover .moveLink {
+  height: 100%;
+}
+.crossBox:hover .crossBoxLine {
+  background-color: #d3fd50;
+}
+.parentNav:hover .childNav {
+  background-color: #000;
+}
+
+.menuTrigger:hover .menuTriggerContent {
+  color: #101010;
+}
+
+.menuGlyph {
+  position: relative;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid currentColor;
+  border-radius: 9999px;
+  transition: transform 0.35s ease, border-color 0.35s ease;
+}
+
+.menuGlyphLine {
+  position: absolute;
+  top: 0.8rem;
+  left: 50%;
+  width: 1px;
+  height: 0.75rem;
+  background-color: currentColor;
+  transform: translateX(-50%);
+  transition: height 0.35s ease, top 0.35s ease, opacity 0.35s ease;
+}
+
+.menuGlyphArrow {
+  position: absolute;
+  left: 50%;
+  top: 1.3rem;
+  width: 1rem;
+  height: 0.7rem;
+  transform: translateX(-50%);
+  transition: transform 0.35s ease, top 0.35s ease;
+}
+
+.menuGlyphChevron {
+  position: absolute;
+  bottom: 0;
+  width: 0.6rem;
+  height: 1px;
+  background-color: currentColor;
+  transition: transform 0.35s ease, width 0.35s ease;
+}
+
+.menuGlyphChevronLeft {
+  left: 0;
+  transform-origin: right center;
+  transform: rotate(40deg);
+}
+
+.menuGlyphChevronRight {
+  right: 0;
+  transform-origin: left center;
+  transform: rotate(-40deg);
+}
+
+.menuTrigger:hover .menuGlyph {
+  transform: translateY(2px) rotate(8deg);
+}
+
+.menuTrigger:hover .menuGlyphLine {
+  top: 0.65rem;
+  height: 1rem;
+}
+
+.menuTrigger:hover .menuGlyphArrow {
+  top: 1.45rem;
+  transform: translateX(-50%) scale(1.08);
+}
+
+.menuTrigger:hover .menuGlyphChevronLeft {
+  width: 0.72rem;
+  transform: rotate(52deg);
+}
+
+.menuTrigger:hover .menuGlyphChevronRight {
+  width: 0.72rem;
+  transform: rotate(-52deg);
+}
+
+.circleWrap {
+  position: relative;
+  display: inline-block;
+  padding: 0 10px;
+}
+
+.movingOval {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: #d3fd50;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  /* 1. Dasharray ko itna bada rakhein ke full oval cover ho sake */
+  stroke-dasharray: 500;
+  /* 2. Total duration badha di (2s animation + 0.5s pause = 2.5s) */
+  animation: snake 2.5s ease-in-out infinite;
+}
+
+@keyframes snake {
+  /* Start: Snake ki tarah entry */
+  0% {
+    stroke-dashoffset: 500;
+  }
+  /* 80% tak animation khatam (2.5s ka 80% = 2s) */
+  80% {
+    stroke-dashoffset: 0;
+  }
+  /* 80% se 100% tak rukega (Last 0.5s pause) */
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+.panel {
+  width: 100%;
+  height: 100vh; /* Critical: Each panel must be full screen */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+
+/* Make sure colors are defined so you can see them */
+.red {
+  background-color: #ff5f5f;
+}
+.orange {
+  background-color: #ffad5f;
+}
+.purple {
+  background-color: #b35fff;
+}
+.green {
+  background-color: #5fff7e;
 }
