@@ -2,11 +2,18 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import React, { useRef, useContext } from "react";
 import { NavbarContext } from "../../context/navContext";
+import { useNavigate } from "react-router-dom";
 
 const FullScreenNav = () => {
   const fullNavLinksRef = useRef(null);
   const fullScreenRef = useRef(null);
   const [navOpen, setNavOpen] = useContext(NavbarContext);
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    setNavOpen(false);
+    navigate(path);
+  };
 
   useGSAP(() => {
     const stairs = gsap.utils.toArray(".stairing");
@@ -145,7 +152,7 @@ const FullScreenNav = () => {
         </div>
         {/* navlinks */}
         <div className=" h-full w-full flex flex-col justify-center">
-          <div className="link origin-top border-y-1 border-white relative">
+          <div className="link origin-top border-y-1 border-white relative cursor-pointer" onClick={() => handleNavigation('/projects')}>
             <h1 className="font-[font2] text-white text-[8vw] uppercase leading-[0.8] pt-5 text-center">
               Projets
             </h1>
@@ -188,7 +195,7 @@ const FullScreenNav = () => {
               </div>
             </div>
           </div>
-          <div className="link origin-top border-y-1 border-white relative">
+          <div className="link origin-top border-y-1 border-white relative cursor-pointer" onClick={() => handleNavigation('/agence')}>
             <h1 className="font-[font2] text-white text-[8vw] uppercase leading-[0.8] pt-5 text-center">
               Agence
             </h1>
@@ -231,7 +238,7 @@ const FullScreenNav = () => {
               </div>
             </div>
           </div>
-          <div className="link origin-top border-y-1 border-white relative">
+          <div className="link origin-top border-y-1 border-white relative cursor-pointer" onClick={() => handleNavigation('/contact')}>
             <h1 className="font-[font2] text-white text-[8vw] uppercase leading-[0.8] pt-5 text-center">
               Contact
             </h1>
@@ -274,7 +281,7 @@ const FullScreenNav = () => {
               </div>
             </div>
           </div>
-          <div className="link origin-top border-y-1 border-white relative">
+          <div className="link origin-top border-y-1 border-white relative cursor-pointer" onClick={() => handleNavigation('/blogue')}>
             <h1 className="font-[font2] text-white text-[8vw] uppercase leading-[0.8] pt-5 text-center">
               Blogue
             </h1>

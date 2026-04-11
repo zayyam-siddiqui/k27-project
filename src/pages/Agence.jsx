@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import React, { useRef } from 'react'
+import ProjectFooter from '../components/projects/ProjectCardFooter';
 
 const Agence = () => {
     gsap.registerPlugin(ScrollTrigger);
@@ -94,6 +95,8 @@ const Agence = () => {
             </section>
 
             <section className='Section 2 h-screen'></section>
+
+            <ProjectFooter />
         </div>
     )
 }

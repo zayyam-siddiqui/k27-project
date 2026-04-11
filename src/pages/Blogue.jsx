@@ -3,7 +3,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import BlogCard from '../components/blog/BlogCard';
-import BlogFooter from '../components/blog/BlogFooter';
+import ProjectFooter from '../components/projects/ProjectCardFooter';
 
 const Blogue = () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -104,7 +104,7 @@ const Blogue = () => {
       </div>
 
       {/* Footer */}
-      <BlogFooter />
+      <ProjectFooter />
     </div>
   );
 };

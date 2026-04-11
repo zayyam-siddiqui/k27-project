@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import ContactForm from '../components/contact/ContactForm';
 import ContactInfo from '../components/contact/ContactInfo';
+import ProjectFooter from '../components/projects/ProjectCardFooter';
 
 const Contact = () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -48,30 +49,7 @@ const Contact = () => {
       </div>
 
       {/* Footer Section */}
-      <div className="h-[65vh] w-full bg-black text-white flex flex-col justify-between p-4">
-        <div className="flex justify-between">
-          <div className="font-[font2] flex justify-between gap-2">
-            <div className="hover:text-[#d3fd50] hover:border-[#d3fd50] uppercase text-8xl font-[font2] border-2 rounded-full pt-2 px-6 text-white border-white font-bold">
-              FB
-            </div>
-            <div className="hover:text-[#d3fd50] hover:border-[#d3fd50] uppercase text-8xl font-[font2] border-2 rounded-full pt-2 px-6 text-white border-white font-bold">
-              IG
-            </div>
-            <div className="hover:text-[#d3fd50] hover:border-[#d3fd50] uppercase text-8xl font-[font2] border-2 rounded-full pt-2 px-6 text-white border-white font-bold">
-              IN
-            </div>
-            <div className="hover:text-[#d3fd50] hover:border-[#d3fd50] uppercase text-8xl font-[font2] border-2 rounded-full pt-2 px-6 text-white border-white font-bold">
-              BE
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-between uppercase">
-          <div className="font-[font1] text-2xl">montreal</div>
-          <div className="font-[font1] text-2xl hover:text-[#d3fd50] cursor-pointer">
-            retour en haut
-          </div>
-        </div>
-      </div>
+      <ProjectFooter />
     </div>
   );
 };
