@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import React, { useRef } from 'react'
 import ProjectFooter from '../components/projects/ProjectCardFooter';
-import StickyStackedCards from '../components/agence/StickyStackedCards';
+import AgenceCards from '../components/agence/AgenceCards';
 
 const Agence = () => {
     gsap.registerPlugin(ScrollTrigger);
@@ -95,7 +95,9 @@ const Agence = () => {
                 </div>
             </section>
 
-            <StickyStackedCards />
+            <AgenceCards />
+
+            <section className='Section 2 h-screen'></section>
 
             <ProjectFooter />
         </div>

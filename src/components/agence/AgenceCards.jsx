@@ -46,89 +46,91 @@ const AgenceCards = () => {
     const cards = cardsRef.current;
 
     cards.forEach((card, index) => {
-      gsap.from(card, {
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: card,
-          start: 'top 80%',
-          end: 'top 20%',
-          scrub: 1.5,
-          markers: false,
+          trigger: containerRef.current,
+          start: `top ${20 + index * 15}%`,
+          end: `top ${10 + index * 15}%`,
+          scrub: 1,
+          invalidateOnRefresh: true,
         },
+      });
+
+      // Card entrance and stacking animation
+      tl.from(card, {
         opacity: 0,
         y: 100,
         duration: 1,
-      });
+      }, 0)
+        .to(
+          card,
+          {
+            y: -index * 60,
+            rotation: index * 2,
+            duration: 1,
+          },
+          0
+        );
 
       // Text content animation
       const textElements = card.querySelectorAll('.card-text');
-      gsap.from(textElements, {
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 75%',
-          end: 'top 15%',
-          scrub: 1.5,
+      tl.from(
+        textElements,
+        {
+          opacity: 0,
+          x: 50,
+          stagger: 0.2,
+          duration: 0.8,
         },
-        opacity: 0,
-        x: 50,
-        stagger: 0.15,
-        duration: 0.8,
-      });
-
-      // Image animation
-      const image = card.querySelector('img');
-      gsap.from(image, {
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 80%',
-          end: 'top 20%',
-          scrub: 1.5,
-        },
-        opacity: 0,
-        scale: 0.8,
-        duration: 1,
-      });
+        0.2
+      );
     });
   });
 
   return (
-    <div ref={containerRef} className="relative w-full py-20 bg-[#171616]">
-      {cardsData.map((card, index) => (
-        <div
-          key={card.id}
-          ref={(el) => (cardsRef.current[index] = el)}
-          className="relative w-full min-h-screen flex items-center justify-center py-24"
-        >
-          <div className="flex items-center justify-center gap-16 px-8 max-w-7xl mx-auto w-full">
-            {/* Card Image */}
-            <div className="flex-shrink-0 w-[400px] h-[500px] rounded-3xl overflow-hidden shadow-2xl">
-              <img
-                src={card.image}
-                alt={card.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
+    <div ref={containerRef} className="relative w-full min-h-screen py-20">
+      <div className="relative h-[800px]">
+        {cardsData.map((card, index) => (
+          <div
+            key={card.id}
+            ref={(el) => (cardsRef.current[index] = el)}
+            className="absolute inset-0 w-full h-[600px] top-[100px]"
+          >
+            <div className="flex items-center justify-center gap-12 h-full px-8">
+              {/* Card Image */}
+              <div className="flex-shrink-0 w-[400px] h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-            {/* Card Text Content */}
-            <div className="flex-1 max-w-[600px]">
-              <div className="card-text">
-                <h3 className="font-[font2] text-6xl mb-8 text-[#d3fd50] leading-tight">
-                  {card.title}
-                </h3>
-              </div>
-              <div className="card-text">
-                <p className="font-[font1] text-xl leading-relaxed text-white mb-8">
-                  {card.description}
-                </p>
-              </div>
-              <div className="card-text">
-                <button className="font-[font2] text-lg uppercase border-2 border-[#d3fd50] text-[#d3fd50] px-8 py-4 rounded-full hover:bg-[#d3fd50] hover:text-black transition-all duration-300">
-                  Découvrir
-                </button>
+              {/* Card Text Content */}
+              <div className="flex-1 max-w-[500px]">
+                <div className="card-text">
+                  <h3 className="font-[font2] text-5xl mb-6 text-[#d3fd50]">
+                    {card.title}
+                  </h3>
+                </div>
+                <div className="card-text">
+                  <p className="font-[font1] text-2xl leading-relaxed text-white">
+                    {card.description}
+                  </p>
+                </div>
+                <div className="card-text mt-8">
+                  <button className="font-[font2] text-xl uppercase border-2 border-[#d3fd50] text-[#d3fd50] px-8 py-4 rounded-full hover:bg-[#d3fd50] hover:text-black transition-all duration-300">
+                    Découvrir
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      {/* Spacer to allow scrolling through all cards */}
+      <div className="h-[1200px]" />
     </div>
   );
 };
