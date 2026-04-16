@@ -45,66 +45,70 @@ const StickyStackedCards = () => {
     const cards = cardsRef.current.filter(Boolean);
     if (!cards.length) return;
 
-    // Create animations for each card
     cards.forEach((card, index) => {
+      const vh = window.innerHeight;
+      const startPixel = index * vh;
+      const endPixel = (index + 1) * vh;
+
       // Card entrance animation
       gsap.from(card, {
         scrollTrigger: {
           trigger: containerRef.current,
-          start: `top+=${index * 100}%`,
-          end: `top+=${index * 100 + 100}%`,
-          scrub: 1.5,
+          start: `top+=${startPixel}px`,
+          end: `top+=${startPixel + vh * 0.4}px`,
+          scrub: 1.2,
           invalidateOnRefresh: true,
         },
         opacity: 0,
-        y: 100,
-        duration: 1,
+        y: 80,
+        duration: 0.8,
       });
 
-      // Individual text elements animation
+      // Title animation
       const title = card.querySelector('.card-title');
-      const description = card.querySelector('.card-description');
-      const button = card.querySelector('.card-button');
-
       if (title) {
         gsap.from(title, {
           scrollTrigger: {
             trigger: containerRef.current,
-            start: `top+=${index * 100 + 10}%`,
-            end: `top+=${index * 100 + 50}%`,
-            scrub: 1.5,
+            start: `top+=${startPixel + 50}px`,
+            end: `top+=${startPixel + vh * 0.3}px`,
+            scrub: 1.2,
           },
           opacity: 0,
-          x: -50,
-          duration: 0.8,
+          x: -60,
+          duration: 0.6,
         });
       }
 
+      // Description animation
+      const description = card.querySelector('.card-description');
       if (description) {
         gsap.from(description, {
           scrollTrigger: {
             trigger: containerRef.current,
-            start: `top+=${index * 100 + 20}%`,
-            end: `top+=${index * 100 + 60}%`,
-            scrub: 1.5,
+            start: `top+=${startPixel + 100}px`,
+            end: `top+=${startPixel + vh * 0.35}px`,
+            scrub: 1.2,
           },
           opacity: 0,
-          x: -50,
-          duration: 0.8,
+          x: -60,
+          duration: 0.6,
         });
       }
 
+      // Button animation
+      const button = card.querySelector('.card-button');
       if (button) {
         gsap.from(button, {
           scrollTrigger: {
             trigger: containerRef.current,
-            start: `top+=${index * 100 + 30}%`,
-            end: `top+=${index * 100 + 70}%`,
-            scrub: 1.5,
+            start: `top+=${startPixel + 150}px`,
+            end: `top+=${startPixel + vh * 0.4}px`,
+            scrub: 1.2,
           },
           opacity: 0,
-          x: -50,
-          duration: 0.8,
+          x: -60,
+          duration: 0.6,
         });
       }
     });
