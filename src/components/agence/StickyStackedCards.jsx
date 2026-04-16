@@ -6,7 +6,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const StickyStackedCards = () => {
   const containerRef = useRef(null);
-  const cardsContainerRef = useRef(null);
   const cardsRef = useRef([]);
 
   const cardsData = [
@@ -43,78 +42,71 @@ const StickyStackedCards = () => {
   ];
 
   useEffect(() => {
-    const cards = cardsRef.current;
-    const cardHeight = window.innerHeight;
-    const totalCards = cards.length;
-    
-    // Each card gets 100vh of scroll height
-    const scrollDistance = totalCards * cardHeight;
+    const cards = cardsRef.current.filter(Boolean);
+    if (!cards.length) return;
 
-    // Animate each card individually
+    // Create animations for each card
     cards.forEach((card, index) => {
-      // Calculate when this card should start and end appearing
-      const startScroll = index * cardHeight;
-      const endScroll = (index + 1) * cardHeight;
-
-      // Entry animation - card slides up and fades in
-      gsap.fromTo(
-        card,
-        {
-          opacity: 0,
-          y: 100,
-          scale: 0.8,
+      // Card entrance animation
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: `top+=${index * 100}%`,
+          end: `top+=${index * 100 + 100}%`,
+          scrub: 1.5,
+          invalidateOnRefresh: true,
         },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: `top+=${startScroll}px`,
-            end: `top+=${startScroll + cardHeight * 0.3}px`,
-            scrub: 1,
-            markers: false,
-          },
-        }
-      );
+        opacity: 0,
+        y: 100,
+        duration: 1,
+      });
 
-      // Text animations with stagger
+      // Individual text elements animation
       const title = card.querySelector('.card-title');
       const description = card.querySelector('.card-description');
       const button = card.querySelector('.card-button');
 
-      gsap.fromTo(
-        [title, description, button],
-        {
-          opacity: 0,
-          y: 20,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
+      if (title) {
+        gsap.from(title, {
           scrollTrigger: {
             trigger: containerRef.current,
-            start: `top+=${startScroll + cardHeight * 0.1}px`,
-            end: `top+=${startScroll + cardHeight * 0.4}px`,
-            scrub: 1,
-            markers: false,
+            start: `top+=${index * 100 + 10}%`,
+            end: `top+=${index * 100 + 50}%`,
+            scrub: 1.5,
           },
-        }
-      );
+          opacity: 0,
+          x: -50,
+          duration: 0.8,
+        });
+      }
 
-      // Exit animation - card fades out and scales down
-      gsap.to(card, {
-        opacity: 0,
-        scale: 0.9,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: `top+=${endScroll - cardHeight * 0.3}px`,
-          end: `top+=${endScroll}px`,
-          scrub: 1,
-          markers: false,
-        },
-      });
+      if (description) {
+        gsap.from(description, {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: `top+=${index * 100 + 20}%`,
+            end: `top+=${index * 100 + 60}%`,
+            scrub: 1.5,
+          },
+          opacity: 0,
+          x: -50,
+          duration: 0.8,
+        });
+      }
+
+      if (button) {
+        gsap.from(button, {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: `top+=${index * 100 + 30}%`,
+            end: `top+=${index * 100 + 70}%`,
+            scrub: 1.5,
+          },
+          opacity: 0,
+          x: -50,
+          duration: 0.8,
+        });
+      }
     });
 
     return () => {
@@ -123,43 +115,36 @@ const StickyStackedCards = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full h-[400vh] bg-[#171616]">
-      {/* Sticky Container */}
-      <div
-        ref={cardsContainerRef}
-        className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden"
-      >
-        {/* Cards */}
-        {cardsData.map((cardData, index) => (
-          <div
-            key={cardData.id}
-            ref={(el) => (cardsRef.current[index] = el)}
-            className="absolute inset-0 flex items-center justify-center p-8 opacity-0"
-          >
-            <div className="max-w-5xl w-full mx-auto flex items-center gap-16">
-              {/* Icon/Image Area */}
-              <div className="flex-shrink-0">
-                <div className="w-[300px] h-[400px] rounded-2xl shadow-2xl flex items-center justify-center text-9xl bg-gradient-to-br from-[#d3fd5020] to-[#d3fd5040] border-2 border-[#d3fd50]">
-                  {cardData.icon}
-                </div>
-              </div>
-
-              {/* Content Area */}
-              <div className="flex-1 max-w-2xl">
-                <h2 className="card-title font-[font2] text-6xl mb-6 text-[#d3fd50] leading-tight opacity-0">
-                  {cardData.title}
-                </h2>
-                <p className="card-description font-[font1] text-2xl leading-relaxed text-white mb-8 opacity-0">
-                  {cardData.description}
-                </p>
-                <button className="card-button font-[font2] text-lg uppercase border-2 border-[#d3fd50] text-[#d3fd50] px-8 py-4 rounded-full hover:bg-[#d3fd50] hover:text-black transition-all duration-300 shadow-lg opacity-0">
-                  Découvrir Plus
-                </button>
+    <div ref={containerRef} className="relative w-full h-[600vh] bg-[#171616]">
+      {cardsData.map((cardData, index) => (
+        <div
+          key={cardData.id}
+          ref={(el) => (cardsRef.current[index] = el)}
+          className="relative w-full h-screen flex items-center justify-center px-8"
+        >
+          <div className="max-w-6xl w-full flex items-center gap-20 mx-auto">
+            {/* Icon/Image Area */}
+            <div className="flex-shrink-0">
+              <div className="w-[300px] h-[400px] rounded-2xl shadow-2xl flex items-center justify-center text-9xl bg-gradient-to-br from-[#d3fd5020] to-[#d3fd5040] border-2 border-[#d3fd50]">
+                {cardData.icon}
               </div>
             </div>
+
+            {/* Content Area */}
+            <div className="flex-1 max-w-2xl">
+              <h2 className="card-title font-[font2] text-6xl mb-6 text-[#d3fd50] leading-tight">
+                {cardData.title}
+              </h2>
+              <p className="card-description font-[font1] text-xl leading-relaxed text-white mb-8">
+                {cardData.description}
+              </p>
+              <button className="card-button font-[font2] text-lg uppercase border-2 border-[#d3fd50] text-[#d3fd50] px-8 py-4 rounded-full hover:bg-[#d3fd50] hover:text-black transition-all duration-300 shadow-lg hover:shadow-[0_0_30px_#d3fd50]">
+                Découvrir Plus
+              </button>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };
